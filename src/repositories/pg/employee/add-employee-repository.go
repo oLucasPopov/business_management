@@ -5,7 +5,7 @@ import (
 	pg_helpers "pontos_funcionario/src/repositories/pg/helpers"
 )
 
-type Employee struct {
+type AddEmployee struct {
 }
 
 const (
@@ -44,7 +44,7 @@ const (
 		,$15) returning *`
 )
 
-func (e *Employee) Add(addEmployee models.AddEmployee) (models.Employee, error) {
+func (e *AddEmployee) Add(addEmployee models.AddEmployee) (models.Employee, error) {
 	db, err := pg_helpers.PostgresConnect()
 	createdEmployee := models.Employee{}
 	if err != nil {

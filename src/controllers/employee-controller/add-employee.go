@@ -11,7 +11,7 @@ import (
 )
 
 type AddEmployee struct {
-	EmployeeRepository pg_employee_repositories.Employee
+	EmployeeRepository pg_employee_repositories.AddEmployee
 	Validation         controller_helpers.ValidationComposite
 }
 
