@@ -16,6 +16,9 @@ func MakeEmployee() employee_controller.AddEmployee {
 		validation_collection = append(validation_collection, validations.NewRequiredFieldValidation(required_field))
 	}
 
+	validation_collection = append(validation_collection,
+		validations.NewRequiredValuesValidation("salary_type", []interface{}{"H", "M"}))
+
 	validationsComposite := controller_helpers.NewValidationComposite(validation_collection)
 
 	return employee_controller.AddEmployee{

@@ -8,7 +8,6 @@ import (
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
 	"pontos_funcionario/src/models"
 	pg_repositories "pontos_funcionario/src/repositories/pg"
-	"slices"
 )
 
 type AddEmployee struct {
@@ -32,13 +31,6 @@ func (c *AddEmployee) Handle(request string) controller_protocols.ControllerResp
 				StatusCode: http.StatusBadRequest,
 				Body:       err,
 			}
-		}
-	}
-
-	if !slices.Contains([]string{"H", "M"}, string(*addEmployee.SalaryType)) {
-		return controller_protocols.ControllerResponse{
-			StatusCode: http.StatusBadRequest,
-			Body:       errors.New("the field salary_type is invalid"),
 		}
 	}
 
