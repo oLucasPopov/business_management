@@ -5,7 +5,7 @@ import (
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
 	"pontos_funcionario/src/controllers/validations"
-	pg_repositories "pontos_funcionario/src/repositories/pg"
+	pg_employee_repositories "pontos_funcionario/src/repositories/pg/employee"
 )
 
 func MakeEmployee() employee_controller.AddEmployee {
@@ -22,7 +22,7 @@ func MakeEmployee() employee_controller.AddEmployee {
 	validationsComposite := controller_helpers.NewValidationComposite(validation_collection)
 
 	return employee_controller.AddEmployee{
-		EmployeeRepository: pg_repositories.Employee{},
+		EmployeeRepository: pg_employee_repositories.Employee{},
 		Validation:         *validationsComposite,
 	}
 }
