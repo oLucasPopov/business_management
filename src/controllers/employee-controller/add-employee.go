@@ -7,11 +7,11 @@ import (
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
 	"pontos_funcionario/src/models"
-	pg_repositories "pontos_funcionario/src/repositories/pg"
+	pg_employee_repositories "pontos_funcionario/src/repositories/pg/employee"
 )
 
 type AddEmployee struct {
-	EmployeeRepository pg_repositories.Employee
+	EmployeeRepository pg_employee_repositories.Employee
 	Validation         controller_helpers.ValidationComposite
 }
 

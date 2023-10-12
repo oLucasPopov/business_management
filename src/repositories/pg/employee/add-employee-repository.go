@@ -1,4 +1,4 @@
-package pg_repositories
+package pg_employee_repositories
 
 import (
 	"pontos_funcionario/src/models"
