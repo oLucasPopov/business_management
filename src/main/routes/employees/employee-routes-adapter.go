@@ -25,8 +25,7 @@ func GetEmployeeAdapter(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddEmployeeAdapter(w http.ResponseWriter, r *http.Request) {
-	reqJson, err := io.ReadAll(r.Body)
-	fmt.Print(err, reqJson)
+	reqJson, _ := io.ReadAll(r.Body)
 
 	addEmployee := employee_factory.MakeAddEmployee()
 	res := addEmployee.Handle(string(reqJson))
