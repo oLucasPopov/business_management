@@ -22,10 +22,10 @@ func (c *AddEmployee) Handle(request string) controller_protocols.ControllerResp
 		return *controller_helpers.ErrorResponse(http.StatusBadRequest, err)
 	}
 
-	err = c.Validations.Validate(request)
+	fieldError, err := c.Validations.Validate(request)
 
 	if err != nil {
-		return *controller_helpers.ErrorResponse(http.StatusBadRequest, err)
+		return *controller_helpers.ErrorFieldResponse(http.StatusBadRequest, err, *fieldError)
 	}
 
 	if *addEmployee.Salary < 0 {

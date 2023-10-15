@@ -12,11 +12,11 @@ func NewValidationComposite(validations []controller_protocols.Validation) *Vali
 	}
 }
 
-func (c *ValidationComposite) Validate(input string) error {
+func (c *ValidationComposite) Validate(input string) (*string, error) {
 	for _, v := range c.Validations {
-		if err := v.Validate(input); err != nil {
-			return err
+		if field, err := v.Validate(input); err != nil {
+			return field, err
 		}
 	}
-	return nil
+	return nil, nil
 }

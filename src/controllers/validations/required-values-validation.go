@@ -20,13 +20,13 @@ func NewRequiredValuesValidation(field string, valuesToValidate []interface{}) *
 	}
 }
 
-func (c *RequiredValuesValidation) Validate(input string) error {
+func (c *RequiredValuesValidation) Validate(input string) (*string, error) {
 	mapInput := map[string]interface{}{}
 	_ = json.Unmarshal([]byte(input), &mapInput)
 
 	if !slices.Contains(c.validValues, mapInput[c.fieldName]) {
-		return fmt.Errorf("the value provided for the field %s is invalid", c.fieldName)
+		return &c.fieldName, fmt.Errorf("the value provided for the field %s is invalid", c.fieldName)
 	}
 
-	return nil
+	return nil, nil
 }
