@@ -1,16 +1,11 @@
 package main
 
 import (
-	"fmt"
-	employee_factory "pontos_funcionario/src/main/factories"
+	"net/http"
+	app_routes "pontos_funcionario/src/main/routes"
 )
 
 func main() {
-
-	add := employee_factory.MakeEmployee()
-
-	// a := add.Handle(`{"name":"any_name","salary":10.89,"salary_type":"H", "cpf_cnpj": "43699838862"}`)
-	a := add.Handle(`{}`)
-
-	fmt.Print(a)
+	r := app_routes.MakeRoutes()
+	http.ListenAndServe("localhost:8080", r)
 }
