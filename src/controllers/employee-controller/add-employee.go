@@ -12,42 +12,30 @@ import (
 
 type AddEmployee struct {
 	EmployeeRepository pg_employee_repositories.AddEmployee
-	Validation         controller_helpers.ValidationComposite
+	Validations        controller_helpers.ValidationComposite
 }
 
 func (c *AddEmployee) Handle(request string) controller_protocols.ControllerResponse {
 	addEmployee := models.AddEmployee{}
 	err := json.Unmarshal([]byte(request), &addEmployee)
 	if err != nil {
-		return controller_protocols.ControllerResponse{
-			StatusCode: http.StatusBadRequest,
-			Body:       errors.New("invalid json"),
-		}
+		return *controller_helpers.ErrorResponse(http.StatusBadRequest, err)
 	}
 
-	for _, validation := range c.Validation.Validations {
-		if err := validation.Validate(request); err != nil {
-			return controller_protocols.ControllerResponse{
-				StatusCode: http.StatusBadRequest,
-				Body:       err,
-			}
-		}
+	err = c.Validations.Validate(request)
+
+	if err != nil {
+		return *controller_helpers.ErrorResponse(http.StatusBadRequest, err)
 	}
 
 	if *addEmployee.Salary < 0 {
-		return controller_protocols.ControllerResponse{
-			StatusCode: http.StatusBadRequest,
-			Body:       errors.New("the field salary must be higher than zero"),
-		}
+		return *controller_helpers.ErrorResponse(http.StatusBadRequest, errors.New("the field salary must be higher than zero"))
 	}
 
 	newEmployee, err := c.EmployeeRepository.Add(addEmployee)
 
 	if err != nil {
-		return controller_protocols.ControllerResponse{
-			StatusCode: http.StatusInternalServerError,
-			Body:       errors.New("error while creating employee: " + err.Error()),
-		}
+		return *controller_helpers.ErrorResponse(http.StatusInternalServerError, errors.New("error while creating employee: "+err.Error()))
 	}
 
 	return controller_protocols.ControllerResponse{
