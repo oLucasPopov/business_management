@@ -38,8 +38,12 @@ func (c *AddEmployee) Handle(request string) controller_protocols.ControllerResp
 		return *controller_helpers.ErrorResponse(http.StatusInternalServerError, errors.New("error while creating employee: "+err.Error()))
 	}
 
+	jsonEmployee, err := json.Marshal(newEmployee)
+	if err != nil {
+		return *controller_helpers.ErrorResponse(http.StatusInternalServerError, err)
+	}
 	return controller_protocols.ControllerResponse{
 		StatusCode: http.StatusCreated,
-		Body:       newEmployee,
+		Body:       jsonEmployee,
 	}
 }
