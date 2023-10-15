@@ -9,7 +9,7 @@ import (
 
 func TestAddEmployeeUnmarshal(t *testing.T) {
 	t.Run("Tests unmarshal error", func(t *testing.T) {
-		sut := employee_factory.MakeEmployee()
+		sut := employee_factory.MakeAddEmployee()
 		response := sut.Handle("any string")
 
 		if response.StatusCode != http.StatusInternalServerError {
@@ -30,7 +30,7 @@ func TestAddEmployeeFailedValidations(t *testing.T) {
 	const failMessage = "expected %s but got %s"
 	const requiredFieldMessage = `the field "%s" is required`
 	t.Run("Tests name validation", func(t *testing.T) {
-		sut := employee_factory.MakeEmployee()
+		sut := employee_factory.MakeAddEmployee()
 		result := sut.Handle("{}")
 
 		if result.StatusCode != http.StatusBadRequest {
@@ -53,7 +53,7 @@ func TestAddEmployeeFailedValidations(t *testing.T) {
 
 	})
 	t.Run("Tests Salary Type validation", func(t *testing.T) {
-		sut := employee_factory.MakeEmployee()
+		sut := employee_factory.MakeAddEmployee()
 		result := sut.Handle(`{"name": "any_name", "salary":1.99}`)
 
 		if result.StatusCode != http.StatusBadRequest {
@@ -75,7 +75,7 @@ func TestAddEmployeeFailedValidations(t *testing.T) {
 		}
 	})
 	t.Run("Tests Invalid Salary Type validation", func(t *testing.T) {
-		sut := employee_factory.MakeEmployee()
+		sut := employee_factory.MakeAddEmployee()
 		result := sut.Handle(`{"name": "any_name", "salary_type": "Invalid"}`)
 
 		if result.StatusCode != http.StatusBadRequest {
@@ -86,7 +86,7 @@ func TestAddEmployeeFailedValidations(t *testing.T) {
 	})
 
 	t.Run("Tests Salary validation", func(t *testing.T) {
-		sut := employee_factory.MakeEmployee()
+		sut := employee_factory.MakeAddEmployee()
 		result := sut.Handle(`{
 			"name": "any_name",
 			"salary_type": "H"
@@ -113,7 +113,7 @@ func TestAddEmployeeFailedValidations(t *testing.T) {
 
 	})
 	t.Run("Tests Salary validation", func(t *testing.T) {
-		sut := employee_factory.MakeEmployee()
+		sut := employee_factory.MakeAddEmployee()
 		result := sut.Handle(`{
 			"name": "any_name",
 			"salary_type": "H",
@@ -127,7 +127,7 @@ func TestAddEmployeeFailedValidations(t *testing.T) {
 	})
 
 	t.Run("Tests Should not return error if all required fields are informed correctly", func(t *testing.T) {
-		sut := employee_factory.MakeEmployee()
+		sut := employee_factory.MakeAddEmployee()
 		result := sut.Handle(`{
 			"name": "any_name",
 			"salary_type": "H",
