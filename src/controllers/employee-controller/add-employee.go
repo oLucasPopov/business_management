@@ -20,8 +20,8 @@ func (c *AddEmployee) Handle(request string) controller_protocols.ControllerResp
 	err := json.Unmarshal([]byte(request), &addEmployee)
 	if err != nil {
 		return controller_protocols.ControllerResponse{
-			StatusCode: http.StatusInternalServerError,
-			Body:       errors.New("coudn't unmarshal json"),
+			StatusCode: http.StatusBadRequest,
+			Body:       errors.New("invalid json"),
 		}
 	}
 
