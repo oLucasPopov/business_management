@@ -23,7 +23,7 @@ func MakeAddEmployee() employee_controller.AddEmployee {
 
 	return employee_controller.AddEmployee{
 		EmployeeRepository: pg_employee_repositories.AddEmployee{},
-		Validation:         *validationsComposite,
+		Validations:        *validationsComposite,
 	}
 }
 
