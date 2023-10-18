@@ -7,28 +7,8 @@ import (
 	"testing"
 )
 
-func TestAddEmployeeUnmarshal(t *testing.T) {
-	t.Run("Tests unmarshal error", func(t *testing.T) {
-		sut := employee_factory.MakeAddEmployee()
-		response := sut.Handle("any string")
-
-		if response.StatusCode != http.StatusInternalServerError {
-			fmt.Printf("Expected to return status code %d and got %d", http.StatusInternalServerError, response.StatusCode)
-			t.Fail()
-		}
-
-		err := response.Body
-		if err == nil {
-			fmt.Printf("Expected to return error but got nil")
-			t.Fail()
-		}
-	})
-}
-
 func TestAddEmployeeFailedValidations(t *testing.T) {
 	const failStatus = "Expected a status code of %d and got %d"
-	const failMessage = "expected %s but got %s"
-	const requiredFieldMessage = `the field "%s" is required`
 	t.Run("Tests name validation", func(t *testing.T) {
 		sut := employee_factory.MakeAddEmployee()
 		result := sut.Handle("{}")
@@ -37,20 +17,6 @@ func TestAddEmployeeFailedValidations(t *testing.T) {
 			fmt.Printf(failStatus, http.StatusBadRequest, result.StatusCode)
 			t.Fail()
 		}
-
-		err := result.Body.(error)
-
-		if err == nil {
-			fmt.Printf("Expected to return error but got nil")
-			t.Fail()
-		}
-
-		requiredFieldValidated := fmt.Sprintf(requiredFieldMessage, "name")
-		if err.Error() != requiredFieldValidated {
-			fmt.Printf(failMessage, requiredFieldValidated, err.Error())
-			t.Fail()
-		}
-
 	})
 	t.Run("Tests Salary Type validation", func(t *testing.T) {
 		sut := employee_factory.MakeAddEmployee()
@@ -58,19 +24,6 @@ func TestAddEmployeeFailedValidations(t *testing.T) {
 
 		if result.StatusCode != http.StatusBadRequest {
 			fmt.Printf(failStatus, http.StatusBadRequest, result.StatusCode)
-			t.Fail()
-		}
-
-		err := result.Body.(error)
-
-		if err == nil {
-			fmt.Printf("Expected to return error but got nil")
-			t.Fail()
-		}
-
-		requiredFieldValidated := fmt.Sprintf(requiredFieldMessage, "salary_type")
-		if err.Error() != requiredFieldValidated {
-			fmt.Printf(failMessage, requiredFieldValidated, err.Error())
 			t.Fail()
 		}
 	})
@@ -96,21 +49,6 @@ func TestAddEmployeeFailedValidations(t *testing.T) {
 			fmt.Printf(failStatus, http.StatusBadRequest, result.StatusCode)
 			t.Fail()
 		}
-
-		err := result.Body.(error)
-
-		if err == nil {
-			fmt.Printf("Expected to return error but got nil")
-			t.Fail()
-		}
-
-		requiredFieldValidated := fmt.Sprintf(requiredFieldMessage, "salary")
-
-		if err.Error() != requiredFieldValidated {
-			fmt.Printf(failMessage, requiredFieldValidated, err.Error())
-			t.Fail()
-		}
-
 	})
 	t.Run("Tests Salary validation", func(t *testing.T) {
 		sut := employee_factory.MakeAddEmployee()

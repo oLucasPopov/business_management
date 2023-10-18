@@ -9,7 +9,7 @@ import (
 func TestRequiredFieldValidation(t *testing.T) {
 	t.Run("Tests valid validation", func(t *testing.T) {
 		sut := validations.NewRequiredFieldValidation("name")
-		_, result := sut.Validate("{\"name\": \"any_name\"}")
+		_, result := sut.Validate(map[string]interface{}{"name": "any_name"})
 
 		if result != nil {
 			fmt.Printf("Expected to return nil but got error: %s", result.Error())
@@ -18,7 +18,7 @@ func TestRequiredFieldValidation(t *testing.T) {
 	})
 	t.Run("Tests invalid validation", func(t *testing.T) {
 		sut := validations.NewRequiredFieldValidation("name")
-		_, result := sut.Validate("{\"not_the_name\": \"any_name\"}")
+		_, result := sut.Validate(map[string]interface{}{"not_the_name": "any_name"})
 
 		if result == nil {
 			fmt.Printf("Expected to return error but got nil")

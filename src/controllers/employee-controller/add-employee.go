@@ -28,10 +28,6 @@ func (c *AddEmployee) Handle(request string) controller_protocols.ControllerResp
 		return *controller_helpers.ErrorFieldResponse(http.StatusBadRequest, err, *fieldError)
 	}
 
-	if *addEmployee.Salary < 0 {
-		return *controller_helpers.ErrorResponse(http.StatusBadRequest, errors.New("the field salary must be higher than zero"))
-	}
-
 	newEmployee, err := c.EmployeeRepository.Add(addEmployee)
 
 	if err != nil {

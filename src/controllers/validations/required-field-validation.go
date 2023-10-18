@@ -1,7 +1,6 @@
 package validations
 
 import (
-	"encoding/json"
 	"fmt"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
 )
@@ -17,12 +16,13 @@ func NewRequiredFieldValidation(fieldName string) *RequiredFieldValidation {
 	}
 }
 
-func (c *RequiredFieldValidation) Validate(input string) (*string, error) {
-	mapInput := map[string]interface{}{}
+func (c *RequiredFieldValidation) Validate(input interface{}) (*string, error) {
+	inputMap, ok := input.(map[string]interface{})
+	if !ok {
+		return nil, fmt.Errorf("input is not a map[string]interface{}")
+	}
 
-	_ = json.Unmarshal([]byte(input), &mapInput)
-
-	if mapInput[c.fieldName] == nil {
+	if inputMap[c.fieldName] == nil {
 		return &c.fieldName, fmt.Errorf(`the field "%s" is required`, c.fieldName)
 	}
 
