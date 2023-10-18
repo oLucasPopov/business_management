@@ -29,3 +29,5 @@ type Employee struct {
 	Id int64
 	AddEmployee
 }
+
+type Employees []Employee
