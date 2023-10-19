@@ -9,18 +9,18 @@ import (
 )
 
 func MakeAddEmployee() employee_controller.AddEmployee {
-	required_fields := []string{"name", "salary", "salary_type"}
-	validation_collection := []controller_protocols.Validation{}
+	requiredFields := []string{"name", "salary", "salary_type"}
+	validationCollection := []controller_protocols.Validation{}
 
-	for _, required_field := range required_fields {
-		validation_collection = append(validation_collection, validations.NewRequiredFieldValidation(required_field))
+	for _, required_field := range requiredFields {
+		validationCollection = append(validationCollection, validations.NewRequiredFieldValidation(required_field))
 	}
 
-	validation_collection = append(validation_collection,
+	validationCollection = append(validationCollection,
 		validations.NewRequiredValuesValidation("salary_type", []interface{}{"H", "M"}),
 		validations.NewHigherThanZeroValidation("salary"))
 
-	validationsComposite := controller_helpers.NewValidationComposite(validation_collection)
+	validationsComposite := controller_helpers.NewValidationComposite(validationCollection)
 
 	return employee_controller.AddEmployee{
 		EmployeeRepository: pg_employee_repositories.AddEmployee{},
