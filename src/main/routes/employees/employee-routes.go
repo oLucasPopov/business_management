@@ -19,6 +19,11 @@ func MakeEmployeeRoutes() []*main_protocols.Route {
 			Method: http.MethodPost,
 			Func:   AddEmployeeAdapter,
 		},
+		&main_protocols.Route{
+			Url:    "/employees",
+			Method: http.MethodGet,
+			Func:   ListEmployeesAdapter,
+		},
 	)
 
 	return routes
