@@ -33,3 +33,9 @@ func MakeGetEmployee() employee_controller.GetEmployee {
 		GetEmployeeRepository: pg_employee_repositories.GetEmployee{},
 	}
 }
+
+func MakeListEmployees() employee_controller.ListEmployees {
+	return employee_controller.ListEmployees{
+		ListEmployeesRepository: pg_employee_repositories.ListEmployees{},
+	}
+}
