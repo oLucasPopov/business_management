@@ -10,7 +10,7 @@ func MakeEmployeeRoutes() []*main_protocols.Route {
 
 	routes = append(routes,
 		&main_protocols.Route{
-			Url:    "/employees/{id}",
+			Url:    "/employee/{id}",
 			Method: http.MethodGet,
 			Func:   GetEmployeeAdapter,
 		},
