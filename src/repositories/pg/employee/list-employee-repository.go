@@ -1,7 +1,6 @@
 package pg_employee_repositories
 
 import (
-	"fmt"
 	"pontos_funcionario/src/models"
 	pg_helpers "pontos_funcionario/src/repositories/pg/helpers"
 )
@@ -33,7 +32,6 @@ func (c *ListEmployees) Handle(page int32) ([]*models.Employee, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		fmt.Println("hehe")
 		employee := &models.Employee{}
 		err := rows.Scan(
 			&employee.Id,
