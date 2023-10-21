@@ -26,7 +26,7 @@ type AddEmployee struct {
 }
 
 type Employee struct {
-	Id int64
+	Id int64 `json:"id"`
 	AddEmployee
 }
 
