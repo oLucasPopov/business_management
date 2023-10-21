@@ -7,6 +7,7 @@ import (
 
 func MakeEmployeeRoutes() []*main_protocols.Route {
 	var routes []*main_protocols.Route
+	const employeesUrl string = "/employees"
 
 	routes = append(routes,
 		&main_protocols.Route{
@@ -15,12 +16,17 @@ func MakeEmployeeRoutes() []*main_protocols.Route {
 			Func:   GetEmployeeAdapter,
 		},
 		&main_protocols.Route{
-			Url:    "/employees",
+			Url:    employeesUrl,
 			Method: http.MethodPost,
 			Func:   AddEmployeeAdapter,
 		},
 		&main_protocols.Route{
-			Url:    "/employees",
+			Url:    employeesUrl,
+			Method: http.MethodPut,
+			Func:   UpdateEmployeeAdapter,
+		},
+		&main_protocols.Route{
+			Url:    employeesUrl,
 			Method: http.MethodGet,
 			Func:   ListEmployeesAdapter,
 		},
