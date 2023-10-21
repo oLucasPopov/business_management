@@ -6,12 +6,12 @@ import (
 )
 
 type ValidationComposite struct {
-	Validations []controller_protocols.Validation
+	validations []controller_protocols.Validation
 }
 
 func NewValidationComposite(validations []controller_protocols.Validation) *ValidationComposite {
 	return &ValidationComposite{
-		Validations: validations,
+		validations: validations,
 	}
 }
 
@@ -19,7 +19,7 @@ func (c *ValidationComposite) Validate(input string) (*string, error) {
 	var inputMap map[string]interface{}
 	json.Unmarshal([]byte(input), &inputMap)
 
-	for _, v := range c.Validations {
+	for _, v := range c.validations {
 		if field, err := v.Validate(inputMap); err != nil {
 			return field, err
 		}
