@@ -20,6 +20,10 @@ func (c *HigherThanZeroValidation) Validate(input interface{}) (*string, error) 
 		return nil, fmt.Errorf("input is not a map[string]interface{}")
 	}
 
+	if inputMap[c.fieldName] == nil {
+		return nil, nil
+	}
+
 	inputValue, ok := inputMap[c.fieldName].(float64)
 	if (!ok) || (inputValue <= 0) {
 		return &c.fieldName, fmt.Errorf(`the field "%s" must be higher than zero`, c.fieldName)

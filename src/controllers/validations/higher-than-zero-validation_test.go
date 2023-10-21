@@ -37,4 +37,14 @@ func TestHigherThanZeroValidation(t *testing.T) {
 			t.Fail()
 		}
 	})
+
+	t.Run("Tests nil Validation", func(t *testing.T) {
+		sut := validations.NewHigherThanZeroValidation("salary")
+		_, result := sut.Validate(map[string]interface{}{"not_the_salary": 0})
+
+		if result != nil {
+			fmt.Printf("Expected not to return error but got %s", result.Error())
+			t.Fail()
+		}
+	})
 }
