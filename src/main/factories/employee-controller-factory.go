@@ -58,3 +58,9 @@ func MakeListEmployees() employee_controller.ListEmployees {
 		ListEmployeesRepository: pg_employee_repositories.ListEmployees{},
 	}
 }
+
+func MakeDeleteEmployee() employee_controller.DeleteEmployee {
+	return employee_controller.DeleteEmployee{
+		DeleteEmployeeRepository: pg_employee_repositories.DeleteEmployee{},
+	}
+}
