@@ -8,7 +8,6 @@ import (
 )
 
 func AddEmployeeAdapter(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("postou")
 	reqJson, _ := io.ReadAll(r.Body)
 
 	addEmployee := employee_factory.MakeAddEmployee()
