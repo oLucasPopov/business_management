@@ -16,6 +16,11 @@ func MakeEmployeeRoutes() []*main_protocols.Route {
 			Func:   GetEmployeeAdapter,
 		},
 		&main_protocols.Route{
+			Url:    "/employee/{id}",
+			Method: http.MethodDelete,
+			Func:   DeleteEmployeeAdapter,
+		},
+		&main_protocols.Route{
 			Url:    employeesUrl,
 			Method: http.MethodPost,
 			Func:   AddEmployeeAdapter,
