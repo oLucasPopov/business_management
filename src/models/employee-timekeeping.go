@@ -18,3 +18,5 @@ type TimeKeepingEmployee struct {
 	ClockOutDateTime *time.Time `json:"clock_out"`
 	AddClockInEmployee
 }
+
+type Timekeepings []*TimeKeepingEmployee
