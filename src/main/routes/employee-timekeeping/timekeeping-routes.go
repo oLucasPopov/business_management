@@ -24,6 +24,11 @@ func MakeTimekeepingRoutes() []*main_protocols.Route {
 			Method: http.MethodDelete,
 			Func:   DeleteTimeKeepingRouteAdapter,
 		},
+		&main_protocols.Route{
+			Url:    "/employees/timekeepings",
+			Method: http.MethodGet,
+			Func:   ListTimekeepingAdapter,
+		},
 	)
 
 	return routes

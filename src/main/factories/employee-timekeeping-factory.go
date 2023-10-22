@@ -40,3 +40,7 @@ func MakeClockOut() *clock_controller.ClockOutEmployee {
 func MakeDeleteTimekeeping() *clock_controller.DeleteTimeKeeping {
 	return &clock_controller.DeleteTimeKeeping{}
 }
+
+func MakeListTimekeeping() *clock_controller.ListTimekeeping {
+	return &clock_controller.ListTimekeeping{}
+}
