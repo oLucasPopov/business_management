@@ -2,6 +2,7 @@ package employee_controller
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
@@ -10,24 +11,37 @@ import (
 )
 
 type UpdateEmployee struct {
-	UpdateEmployeeRepository pg_employee_repositories.UpdateEmployee
-	Validations              controller_helpers.ValidationComposite
+	updateEmployeeRepository pg_employee_repositories.UpdateEmployee
+	validations              controller_helpers.ValidationComposite
 }
 
-func (c *UpdateEmployee) Handle(request string) controller_protocols.ControllerResponse {
-	fieldError, err := c.Validations.Validate(request)
-
-	if err != nil {
-		return *controller_helpers.ErrorFieldResponse(http.StatusBadRequest, err, *fieldError)
+func MakeUpdateEmployee(updateEmployeeRepository pg_employee_repositories.UpdateEmployee,
+	validations controller_helpers.ValidationComposite) controller_protocols.Controller {
+	return &UpdateEmployee{
+		updateEmployeeRepository: updateEmployeeRepository,
+		validations:              validations,
 	}
+}
 
-	employee := models.Employee{}
-	err = json.Unmarshal([]byte(request), &employee)
+func (c *UpdateEmployee) Handle(request *controller_protocols.ControllerRequest) controller_protocols.ControllerResponse {
+	requestBody, err := io.ReadAll(request.Body)
 	if err != nil {
 		return *controller_helpers.ErrorResponse(http.StatusBadRequest, err)
 	}
 
-	employee, err = c.UpdateEmployeeRepository.Handle(employee)
+	requestJson := string(requestBody)
+	fieldErr, err := c.validations.Validate(requestJson)
+	if err != nil {
+		return *controller_helpers.ErrorFieldResponse(http.StatusBadRequest, err, *fieldErr)
+	}
+
+	employee := models.Employee{}
+	err = json.Unmarshal(requestBody, &employee)
+	if err != nil {
+		return *controller_helpers.ErrorResponse(http.StatusBadRequest, err)
+	}
+
+	employee, err = c.updateEmployeeRepository.Handle(employee)
 	if err != nil {
 		return controller_protocols.ControllerResponse{
 			StatusCode: http.StatusInternalServerError,

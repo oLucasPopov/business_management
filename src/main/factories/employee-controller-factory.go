@@ -27,7 +27,7 @@ func MakeAddEmployee() employee_controller.AddEmployee {
 		Validations:        *validationsComposite,
 	}
 }
-func MakeUpdateEmployee() employee_controller.UpdateEmployee {
+func MakeUpdateEmployee() *controller_protocols.Controller {
 	requiredFields := []string{"name", "salary", "salary_type"}
 	validationCollection := []controller_protocols.Validation{}
 
@@ -41,10 +41,9 @@ func MakeUpdateEmployee() employee_controller.UpdateEmployee {
 
 	validationsComposite := controller_helpers.NewValidationComposite(validationCollection)
 
-	return employee_controller.UpdateEmployee{
-		UpdateEmployeeRepository: pg_employee_repositories.UpdateEmployee{},
-		Validations:              *validationsComposite,
-	}
+	updateEmployeeRepository := pg_employee_repositories.UpdateEmployee{}
+	updateEmployee := employee_controller.MakeUpdateEmployee(updateEmployeeRepository, *validationsComposite)
+	return &updateEmployee
 }
 
 func MakeGetEmployee() employee_controller.GetEmployee {

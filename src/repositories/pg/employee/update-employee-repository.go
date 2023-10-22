@@ -1,7 +1,6 @@
 package pg_employee_repositories
 
 import (
-	"fmt"
 	"pontos_funcionario/src/models"
 	pg_helpers "pontos_funcionario/src/repositories/pg/helpers"
 )
@@ -45,8 +44,6 @@ func (e *UpdateEmployee) Handle(employee models.Employee) (models.Employee, erro
 		return updatedEmployee, err
 	}
 	defer stm.Close()
-
-	fmt.Println(employee)
 
 	res, err := stm.Query(
 		employee.Name,
