@@ -19,6 +19,11 @@ func MakeTimekeepingRoutes() []*main_protocols.Route {
 			Method: http.MethodPost,
 			Func:   ClockOutRouteAdapter,
 		},
+		&main_protocols.Route{
+			Url:    "/employee/delete-timekeeping/{id}",
+			Method: http.MethodDelete,
+			Func:   DeleteTimeKeepingRouteAdapter,
+		},
 	)
 
 	return routes
