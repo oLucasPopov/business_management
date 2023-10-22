@@ -15,7 +15,7 @@ func MakeTimekeepingRoutes() []*main_protocols.Route {
 		&main_protocols.Route{
 			Url:    "/employee/clock-in",
 			Method: http.MethodPost,
-			Func:   ClockInRouteAdapter,
+			Func:   muxRoute.Adapt(*employee_factory.MakeClockIn()),
 		},
 		&main_protocols.Route{
 			Url:    "/employee/clock-out",

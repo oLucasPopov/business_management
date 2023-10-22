@@ -8,7 +8,7 @@ import (
 	pg_timekeeping_repositories "pontos_funcionario/src/repositories/pg/employee_timekeeping"
 )
 
-func MakeClockIn() *clock_controller.ClockInEmployee {
+func MakeClockIn() *controller_protocols.Controller {
 	requiredFields := []string{"employee_id", "clock_in"}
 	validationCollection := []controller_protocols.Validation{}
 
@@ -19,10 +19,10 @@ func MakeClockIn() *clock_controller.ClockInEmployee {
 	validationCollection = append(validationCollection, validations.NewHigherThanZeroValidation("salary"))
 
 	validationsComposite := controller_helpers.NewValidationComposite(validationCollection)
-
-	return &clock_controller.ClockInEmployee{
-		Validations: *validationsComposite,
-	}
+	clockInRepository := pg_timekeeping_repositories.ClockIn{}
+	openClockIns := pg_timekeeping_repositories.OpenClockIn{}
+	clockIn := clock_controller.MakeClockInEmployee(clockInRepository, openClockIns, *validationsComposite)
+	return &clockIn
 }
 
 func MakeClockOut() *controller_protocols.Controller {
