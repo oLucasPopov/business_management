@@ -29,8 +29,7 @@ func (c *UpdateEmployee) Handle(request *controller_protocols.ControllerRequest)
 		return *controller_helpers.ErrorResponse(http.StatusBadRequest, err)
 	}
 
-	requestJson := string(requestBody)
-	fieldErr, err := c.validations.Validate(requestJson)
+	fieldErr, err := c.validations.Validate(requestBody)
 	if err != nil {
 		return *controller_helpers.ErrorFieldResponse(http.StatusBadRequest, err, *fieldErr)
 	}

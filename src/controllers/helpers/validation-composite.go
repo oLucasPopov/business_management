@@ -15,9 +15,9 @@ func NewValidationComposite(validations []controller_protocols.Validation) *Vali
 	}
 }
 
-func (c *ValidationComposite) Validate(input string) (*string, error) {
+func (c *ValidationComposite) Validate(input []byte) (*string, error) {
 	var inputMap map[string]interface{}
-	json.Unmarshal([]byte(input), &inputMap)
+	json.Unmarshal(input, &inputMap)
 
 	for _, v := range c.validations {
 		if field, err := v.Validate(inputMap); err != nil {

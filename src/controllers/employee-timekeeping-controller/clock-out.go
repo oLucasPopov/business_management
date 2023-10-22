@@ -36,9 +36,7 @@ func (c *ClockOutEmployee) Handle(request *controller_protocols.ControllerReques
 		return *controller_helpers.ErrorResponse(http.StatusBadRequest, err)
 	}
 
-	requestJson := string(requestBody)
-
-	field, err := c.validations.Validate(requestJson)
+	field, err := c.validations.Validate(requestBody)
 	if err != nil {
 		return *controller_helpers.ErrorFieldResponse(http.StatusBadRequest, err, *field)
 	}
