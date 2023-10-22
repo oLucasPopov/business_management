@@ -2,11 +2,14 @@ package timekeeping_routes
 
 import (
 	"net/http"
+	employee_factory "pontos_funcionario/src/main/factories"
 	main_protocols "pontos_funcionario/src/main/protocols"
+	mux_route_adapter "pontos_funcionario/src/main/routes/adapters/mux"
 )
 
 func MakeTimekeepingRoutes() []*main_protocols.Route {
 	var routes []*main_protocols.Route
+	muxRoute := mux_route_adapter.MuxRoute{}
 
 	routes = append(routes,
 		&main_protocols.Route{
@@ -27,7 +30,7 @@ func MakeTimekeepingRoutes() []*main_protocols.Route {
 		&main_protocols.Route{
 			Url:    "/employees/timekeepings",
 			Method: http.MethodGet,
-			Func:   ListTimekeepingAdapter,
+			Func:   muxRoute.Adapt(*employee_factory.MakeListTimekeeping()),
 		},
 	)
 
