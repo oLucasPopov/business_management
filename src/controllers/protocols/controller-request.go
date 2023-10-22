@@ -1,9 +1,12 @@
 package controller_protocols
 
-import "net/url"
+import (
+	"io"
+	"net/url"
+)
 
 type ControllerRequest struct {
-	Body   interface{}
+	Body   io.ReadCloser
 	Query  url.Values
 	Params map[string]string
 }

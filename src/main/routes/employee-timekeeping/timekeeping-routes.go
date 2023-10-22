@@ -20,7 +20,7 @@ func MakeTimekeepingRoutes() []*main_protocols.Route {
 		&main_protocols.Route{
 			Url:    "/employee/clock-out",
 			Method: http.MethodPost,
-			Func:   ClockOutRouteAdapter,
+			Func:   muxRoute.Adapt(*employee_factory.MakeClockOut()),
 		},
 		&main_protocols.Route{
 			Url:    "/employee/delete-timekeeping/{id}",

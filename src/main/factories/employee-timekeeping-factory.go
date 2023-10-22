@@ -25,7 +25,7 @@ func MakeClockIn() *clock_controller.ClockInEmployee {
 	}
 }
 
-func MakeClockOut() *clock_controller.ClockOutEmployee {
+func MakeClockOut() *controller_protocols.Controller {
 	requiredFields := []string{"id", "clock_out"}
 	validationCollection := []controller_protocols.Validation{}
 	for _, required_field := range requiredFields {
@@ -33,9 +33,11 @@ func MakeClockOut() *clock_controller.ClockOutEmployee {
 	}
 	validationsComposite := controller_helpers.NewValidationComposite(validationCollection)
 
-	return &clock_controller.ClockOutEmployee{
-		Validations: *validationsComposite,
-	}
+	clockOutRepository := pg_timekeeping_repositories.ClockOut{}
+	closedClockInRepository := pg_timekeeping_repositories.ClosedClockIn{}
+	clockOutEmployee := clock_controller.MakeClockOutEmployee(*validationsComposite, clockOutRepository, closedClockInRepository)
+
+	return &clockOutEmployee
 }
 
 func MakeDeleteTimekeeping() *controller_protocols.Controller {

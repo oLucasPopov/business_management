@@ -3,6 +3,7 @@ package clock_controller
 import (
 	"encoding/json"
 	"errors"
+	"io"
 	"net/http"
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
@@ -11,25 +12,45 @@ import (
 )
 
 type ClockOutEmployee struct {
-	Validations             controller_helpers.ValidationComposite
-	ClockOutRepository      pg_timekeeping_repositories.ClockOut
-	ClosedClockInRepository pg_timekeeping_repositories.ClosedClockIn
+	validations             controller_helpers.ValidationComposite
+	clockOutRepository      pg_timekeeping_repositories.ClockOut
+	closedClockInRepository pg_timekeeping_repositories.ClosedClockIn
+	controller_protocols.Controller
 }
 
-func (c *ClockOutEmployee) Handle(request string) controller_protocols.ControllerResponse {
-	field, err := c.Validations.Validate(request)
+func MakeClockOutEmployee(
+	validations controller_helpers.ValidationComposite,
+	clockOutRepository pg_timekeeping_repositories.ClockOut,
+	closedClockInRepository pg_timekeeping_repositories.ClosedClockIn,
+) controller_protocols.Controller {
+	return &ClockOutEmployee{
+		validations:             validations,
+		clockOutRepository:      clockOutRepository,
+		closedClockInRepository: closedClockInRepository,
+	}
+}
+
+func (c *ClockOutEmployee) Handle(request *controller_protocols.ControllerRequest) controller_protocols.ControllerResponse {
+	requestBody, err := io.ReadAll(request.Body)
+	if err != nil {
+		return *controller_helpers.ErrorResponse(http.StatusBadRequest, err)
+	}
+
+	requestJson := string(requestBody)
+
+	field, err := c.validations.Validate(requestJson)
 	if err != nil {
 		return *controller_helpers.ErrorFieldResponse(http.StatusBadRequest, err, *field)
 	}
 
 	var addClockOut models.AddClockOutEmployee
 
-	err = json.Unmarshal([]byte(request), &addClockOut)
+	err = json.Unmarshal(requestBody, &addClockOut)
 	if err != nil {
 		return *controller_helpers.ErrorResponse(http.StatusInternalServerError, err)
 	}
 
-	closed, err := c.ClosedClockInRepository.Handle(*addClockOut.Id)
+	closed, err := c.closedClockInRepository.Handle(*addClockOut.Id)
 	if err != nil {
 		return *controller_helpers.ErrorResponse(http.StatusInternalServerError, err)
 	}
@@ -38,7 +59,7 @@ func (c *ClockOutEmployee) Handle(request string) controller_protocols.Controlle
 		return *controller_helpers.ErrorResponse(http.StatusConflict, errors.New("this timekeeping is already clocked out"))
 	}
 
-	timeKeeping, err := c.ClockOutRepository.Handle(addClockOut)
+	timeKeeping, err := c.clockOutRepository.Handle(addClockOut)
 	if err != nil {
 		return *controller_helpers.ErrorResponse(http.StatusInternalServerError, err)
 	}
