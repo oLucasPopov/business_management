@@ -5,6 +5,8 @@ import (
 	"net/http"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
 	main_protocols "pontos_funcionario/src/main/protocols"
+
+	"github.com/gorilla/mux"
 )
 
 type MuxRoute struct {
@@ -14,8 +16,9 @@ type MuxRoute struct {
 func (mr *MuxRoute) Adapt(controller controller_protocols.Controller) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		res := controller.Handle(&controller_protocols.ControllerRequest{
-			Query: r.URL.Query(),
-			Body:  r.Body,
+			Query:  r.URL.Query(),
+			Body:   r.Body,
+			Params: mux.Vars(r),
 		})
 
 		w.WriteHeader(res.StatusCode)

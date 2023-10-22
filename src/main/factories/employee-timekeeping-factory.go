@@ -38,8 +38,10 @@ func MakeClockOut() *clock_controller.ClockOutEmployee {
 	}
 }
 
-func MakeDeleteTimekeeping() *clock_controller.DeleteTimeKeeping {
-	return &clock_controller.DeleteTimeKeeping{}
+func MakeDeleteTimekeeping() *controller_protocols.Controller {
+	deleteTimeKeepingRepository := pg_timekeeping_repositories.DeleteTimekeeping{}
+	deleteTimeKeeping := clock_controller.MakeDeleteTimekeeping(deleteTimeKeepingRepository)
+	return &deleteTimeKeeping
 }
 
 func MakeListTimekeeping() *controller_protocols.Controller {

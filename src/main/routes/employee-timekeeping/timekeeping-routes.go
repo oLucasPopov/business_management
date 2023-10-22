@@ -25,7 +25,7 @@ func MakeTimekeepingRoutes() []*main_protocols.Route {
 		&main_protocols.Route{
 			Url:    "/employee/delete-timekeeping/{id}",
 			Method: http.MethodDelete,
-			Func:   DeleteTimeKeepingRouteAdapter,
+			Func:   muxRoute.Adapt(*employee_factory.MakeDeleteTimekeeping()),
 		},
 		&main_protocols.Route{
 			Url:    "/employees/timekeepings",
