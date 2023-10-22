@@ -23,3 +23,16 @@ func MakeClockIn() *clock_controller.ClockInEmployee {
 		Validations: *validationsComposite,
 	}
 }
+
+func MakeClockOut() *clock_controller.ClockOutEmployee {
+	requiredFields := []string{"id", "clock_out"}
+	validationCollection := []controller_protocols.Validation{}
+	for _, required_field := range requiredFields {
+		validationCollection = append(validationCollection, validations.NewRequiredFieldValidation(required_field))
+	}
+	validationsComposite := controller_helpers.NewValidationComposite(validationCollection)
+
+	return &clock_controller.ClockOutEmployee{
+		Validations: *validationsComposite,
+	}
+}
