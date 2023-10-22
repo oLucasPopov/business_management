@@ -36,3 +36,7 @@ func MakeClockOut() *clock_controller.ClockOutEmployee {
 		Validations: *validationsComposite,
 	}
 }
+
+func MakeDeleteTimekeeping() *clock_controller.DeleteTimeKeeping {
+	return &clock_controller.DeleteTimeKeeping{}
+}
