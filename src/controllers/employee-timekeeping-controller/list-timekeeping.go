@@ -10,7 +10,14 @@ import (
 )
 
 type ListTimekeeping struct {
-	ListTimekeepingRepository pg_timekeeping_repositories.ListTimekeeping
+	listTimekeepingRepository pg_timekeeping_repositories.ListTimekeeping
+	controller_protocols.Controller
+}
+
+func MakeListTimekeeping(listTimekeepingRepository pg_timekeeping_repositories.ListTimekeeping) controller_protocols.Controller {
+	return &ListTimekeeping{
+		listTimekeepingRepository: listTimekeepingRepository,
+	}
 }
 
 func (c *ListTimekeeping) Handle(request *controller_protocols.ControllerRequest) controller_protocols.ControllerResponse {
@@ -38,7 +45,7 @@ func (c *ListTimekeeping) Handle(request *controller_protocols.ControllerRequest
 		endDate = &end
 	}
 
-	timekeeping, err := c.ListTimekeepingRepository.Handle(int32(page), beginDate, endDate)
+	timekeeping, err := c.listTimekeepingRepository.Handle(int32(page), beginDate, endDate)
 	if err != nil {
 		return controller_protocols.ControllerResponse{
 			StatusCode: http.StatusInternalServerError,
