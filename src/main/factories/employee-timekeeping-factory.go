@@ -5,6 +5,7 @@ import (
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
 	"pontos_funcionario/src/controllers/validations"
+	pg_timekeeping_repositories "pontos_funcionario/src/repositories/pg/employee_timekeeping"
 )
 
 func MakeClockIn() *clock_controller.ClockInEmployee {
@@ -41,6 +42,8 @@ func MakeDeleteTimekeeping() *clock_controller.DeleteTimeKeeping {
 	return &clock_controller.DeleteTimeKeeping{}
 }
 
-func MakeListTimekeeping() *clock_controller.ListTimekeeping {
-	return &clock_controller.ListTimekeeping{}
+func MakeListTimekeeping() *controller_protocols.Controller {
+	listTimekeepingRepository := pg_timekeeping_repositories.ListTimekeeping{}
+	listTimekeeping := clock_controller.MakeListTimekeeping(listTimekeepingRepository)
+	return &listTimekeeping
 }
