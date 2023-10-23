@@ -3,6 +3,7 @@ package employee_controller
 import (
 	"encoding/json"
 	"errors"
+	"io"
 	"net/http"
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
@@ -11,24 +12,37 @@ import (
 )
 
 type AddEmployee struct {
-	EmployeeRepository pg_employee_repositories.AddEmployee
-	Validations        controller_helpers.ValidationComposite
+	employeeRepository pg_employee_repositories.AddEmployee
+	validations        controller_helpers.ValidationComposite
+	controller_protocols.Controller
 }
 
-func (c *AddEmployee) Handle(request string) controller_protocols.ControllerResponse {
-	addEmployee := models.AddEmployee{}
-	err := json.Unmarshal([]byte(request), &addEmployee)
+func MakeAddEmployee(employeeRepository pg_employee_repositories.AddEmployee,
+	validations controller_helpers.ValidationComposite) controller_protocols.Controller {
+	return &AddEmployee{
+		employeeRepository: employeeRepository,
+		validations:        validations,
+	}
+}
+
+func (c *AddEmployee) Handle(request *controller_protocols.ControllerRequest) controller_protocols.ControllerResponse {
+	reqJson, err := io.ReadAll(request.Body)
 	if err != nil {
 		return *controller_helpers.ErrorResponse(http.StatusBadRequest, err)
 	}
 
-	fieldError, err := c.Validations.Validate([]byte(request))
-
+	fieldError, err := c.validations.Validate(reqJson)
 	if err != nil {
 		return *controller_helpers.ErrorFieldResponse(http.StatusBadRequest, err, *fieldError)
 	}
 
-	newEmployee, err := c.EmployeeRepository.Add(addEmployee)
+	addEmployee := models.AddEmployee{}
+	err = json.Unmarshal(reqJson, &addEmployee)
+	if err != nil {
+		return *controller_helpers.ErrorResponse(http.StatusBadRequest, err)
+	}
+
+	newEmployee, err := c.employeeRepository.Add(addEmployee)
 
 	if err != nil {
 		return *controller_helpers.ErrorResponse(http.StatusInternalServerError, errors.New("error while creating employee: "+err.Error()))

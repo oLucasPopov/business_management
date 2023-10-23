@@ -8,7 +8,7 @@ import (
 	pg_employee_repositories "pontos_funcionario/src/repositories/pg/employee"
 )
 
-func MakeAddEmployee() employee_controller.AddEmployee {
+func MakeAddEmployee() *controller_protocols.Controller {
 	requiredFields := []string{"name", "salary", "salary_type"}
 	validationCollection := []controller_protocols.Validation{}
 
@@ -21,11 +21,9 @@ func MakeAddEmployee() employee_controller.AddEmployee {
 		validations.NewHigherThanZeroValidation("salary"))
 
 	validationsComposite := controller_helpers.NewValidationComposite(validationCollection)
-
-	return employee_controller.AddEmployee{
-		EmployeeRepository: pg_employee_repositories.AddEmployee{},
-		Validations:        *validationsComposite,
-	}
+	addEmployeeRepository := pg_employee_repositories.AddEmployee{}
+	addEmployee := employee_controller.MakeAddEmployee(addEmployeeRepository, *validationsComposite)
+	return &addEmployee
 }
 func MakeUpdateEmployee() *controller_protocols.Controller {
 	requiredFields := []string{"name", "salary", "salary_type"}
