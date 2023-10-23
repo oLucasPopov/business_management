@@ -16,7 +16,7 @@ func MakeEmployeeRoutes() []*main_protocols.Route {
 		&main_protocols.Route{
 			Url:    "/employee/{id}",
 			Method: http.MethodGet,
-			Func:   GetEmployeeAdapter,
+			Func:   muxRoute.Adapt(*employee_factory.MakeGetEmployee()),
 		},
 		&main_protocols.Route{
 			Url:    "/employee/{id}",

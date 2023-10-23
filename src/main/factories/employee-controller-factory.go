@@ -44,10 +44,10 @@ func MakeUpdateEmployee() *controller_protocols.Controller {
 	return &updateEmployee
 }
 
-func MakeGetEmployee() employee_controller.GetEmployee {
-	return employee_controller.GetEmployee{
-		GetEmployeeRepository: pg_employee_repositories.GetEmployee{},
-	}
+func MakeGetEmployee() *controller_protocols.Controller {
+	getEmployeeRepository := pg_employee_repositories.GetEmployee{}
+	getEmployee := employee_controller.MakeGetEmployee(getEmployeeRepository)
+	return &getEmployee
 }
 
 func MakeListEmployees() employee_controller.ListEmployees {
