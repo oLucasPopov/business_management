@@ -2,6 +2,7 @@ package employee_controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
@@ -12,13 +13,16 @@ import (
 
 type UpdateEmployee struct {
 	updateEmployeeRepository employee_repositories_protocols.UpdateEmployee
+	getEmployeeRepository    employee_repositories_protocols.GetEmployee
 	validations              controller_helpers.ValidationComposite
 }
 
 func MakeUpdateEmployee(updateEmployeeRepository employee_repositories_protocols.UpdateEmployee,
+	getEmployeeRepository employee_repositories_protocols.GetEmployee,
 	validations controller_helpers.ValidationComposite) controller_protocols.Controller {
 	return &UpdateEmployee{
 		updateEmployeeRepository: updateEmployeeRepository,
+		getEmployeeRepository:    getEmployeeRepository,
 		validations:              validations,
 	}
 }
@@ -38,6 +42,14 @@ func (c *UpdateEmployee) Handle(request *controller_protocols.ControllerRequest)
 	err = json.Unmarshal(requestBody, &employee)
 	if err != nil {
 		return *controller_helpers.ErrorResponse(http.StatusBadRequest, err)
+	}
+	existingEmployee, err := c.getEmployeeRepository.Handle(employee.Id)
+	if err != nil {
+		return *controller_helpers.ErrorResponse(http.StatusInternalServerError, err)
+	}
+
+	if existingEmployee == nil {
+		return *controller_helpers.ErrorResponse(http.StatusNotFound, fmt.Errorf("the employee %d does not exist", employee.Id))
 	}
 
 	employee, err = c.updateEmployeeRepository.Handle(employee)

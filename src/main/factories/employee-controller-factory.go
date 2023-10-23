@@ -40,7 +40,9 @@ func MakeUpdateEmployee() *controller_protocols.Controller {
 	validationsComposite := controller_helpers.NewValidationComposite(validationCollection)
 
 	updateEmployeeRepository := pg_employee_repositories.UpdateEmployee{}
-	updateEmployee := employee_controller.MakeUpdateEmployee(&updateEmployeeRepository, *validationsComposite)
+	getEmployeeRepository := pg_employee_repositories.GetEmployee{}
+
+	updateEmployee := employee_controller.MakeUpdateEmployee(&updateEmployeeRepository, &getEmployeeRepository, *validationsComposite)
 	return &updateEmployee
 }
 
