@@ -4,17 +4,17 @@ import (
 	"encoding/json"
 	"net/http"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
-	pg_timekeeping_repositories "pontos_funcionario/src/repositories/pg/employee_timekeeping"
+	timekeeping_repositories_protocols "pontos_funcionario/src/repositories/protocols/timekeeping"
 	"strconv"
 	"time"
 )
 
 type ListTimekeeping struct {
-	listTimekeepingRepository pg_timekeeping_repositories.ListTimekeeping
+	listTimekeepingRepository timekeeping_repositories_protocols.ListTimekeeping
 	controller_protocols.Controller
 }
 
-func MakeListTimekeeping(listTimekeepingRepository pg_timekeeping_repositories.ListTimekeeping) controller_protocols.Controller {
+func MakeListTimekeeping(listTimekeepingRepository timekeeping_repositories_protocols.ListTimekeeping) controller_protocols.Controller {
 	return &ListTimekeeping{
 		listTimekeepingRepository: listTimekeepingRepository,
 	}

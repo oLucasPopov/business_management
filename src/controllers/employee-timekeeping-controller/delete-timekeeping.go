@@ -5,16 +5,16 @@ import (
 	"net/http"
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
-	pg_timekeeping_repositories "pontos_funcionario/src/repositories/pg/employee_timekeeping"
+	timekeeping_repositories_protocols "pontos_funcionario/src/repositories/protocols/timekeeping"
 	"strconv"
 )
 
 type DeleteTimeKeeping struct {
-	deleteTimeKeepingRepository pg_timekeeping_repositories.DeleteTimekeeping
+	deleteTimeKeepingRepository timekeeping_repositories_protocols.DeleteTimekeeping
 	controller_protocols.Controller
 }
 
-func MakeDeleteTimekeeping(deleteTimeKeepingRepository pg_timekeeping_repositories.DeleteTimekeeping) controller_protocols.Controller {
+func MakeDeleteTimekeeping(deleteTimeKeepingRepository timekeeping_repositories_protocols.DeleteTimekeeping) controller_protocols.Controller {
 	return &DeleteTimeKeeping{
 		deleteTimeKeepingRepository: deleteTimeKeepingRepository,
 	}

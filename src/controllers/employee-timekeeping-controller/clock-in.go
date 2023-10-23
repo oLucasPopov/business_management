@@ -8,19 +8,19 @@ import (
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
 	"pontos_funcionario/src/models"
-	pg_timekeeping_repositories "pontos_funcionario/src/repositories/pg/employee_timekeeping"
+	timekeeping_repositories_protocols "pontos_funcionario/src/repositories/protocols/timekeeping"
 )
 
 type ClockInEmployee struct {
-	clockInRepository     pg_timekeeping_repositories.ClockIn
-	openClockInRepository pg_timekeeping_repositories.OpenClockIn
+	clockInRepository     timekeeping_repositories_protocols.ClockIn
+	openClockInRepository timekeeping_repositories_protocols.GetOpenClockIn
 	validations           controller_helpers.ValidationComposite
 	controller_protocols.Controller
 }
 
 func MakeClockInEmployee(
-	clockInRepository pg_timekeeping_repositories.ClockIn,
-	openClockInRepository pg_timekeeping_repositories.OpenClockIn,
+	clockInRepository timekeeping_repositories_protocols.ClockIn,
+	openClockInRepository timekeeping_repositories_protocols.GetOpenClockIn,
 	validations controller_helpers.ValidationComposite,
 ) controller_protocols.Controller {
 	return &ClockInEmployee{

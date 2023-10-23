@@ -21,7 +21,7 @@ func MakeClockIn() *controller_protocols.Controller {
 	validationsComposite := controller_helpers.NewValidationComposite(validationCollection)
 	clockInRepository := pg_timekeeping_repositories.ClockIn{}
 	openClockIns := pg_timekeeping_repositories.OpenClockIn{}
-	clockIn := clock_controller.MakeClockInEmployee(clockInRepository, openClockIns, *validationsComposite)
+	clockIn := clock_controller.MakeClockInEmployee(&clockInRepository, &openClockIns, *validationsComposite)
 	return &clockIn
 }
 
@@ -35,19 +35,19 @@ func MakeClockOut() *controller_protocols.Controller {
 
 	clockOutRepository := pg_timekeeping_repositories.ClockOut{}
 	closedClockInRepository := pg_timekeeping_repositories.ClosedClockIn{}
-	clockOutEmployee := clock_controller.MakeClockOutEmployee(*validationsComposite, clockOutRepository, closedClockInRepository)
+	clockOutEmployee := clock_controller.MakeClockOutEmployee(*validationsComposite, &clockOutRepository, &closedClockInRepository)
 
 	return &clockOutEmployee
 }
 
 func MakeDeleteTimekeeping() *controller_protocols.Controller {
 	deleteTimeKeepingRepository := pg_timekeeping_repositories.DeleteTimekeeping{}
-	deleteTimeKeeping := clock_controller.MakeDeleteTimekeeping(deleteTimeKeepingRepository)
+	deleteTimeKeeping := clock_controller.MakeDeleteTimekeeping(&deleteTimeKeepingRepository)
 	return &deleteTimeKeeping
 }
 
 func MakeListTimekeeping() *controller_protocols.Controller {
 	listTimekeepingRepository := pg_timekeeping_repositories.ListTimekeeping{}
-	listTimekeeping := clock_controller.MakeListTimekeeping(listTimekeepingRepository)
+	listTimekeeping := clock_controller.MakeListTimekeeping(&listTimekeepingRepository)
 	return &listTimekeeping
 }

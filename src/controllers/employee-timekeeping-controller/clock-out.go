@@ -8,20 +8,20 @@ import (
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
 	"pontos_funcionario/src/models"
-	pg_timekeeping_repositories "pontos_funcionario/src/repositories/pg/employee_timekeeping"
+	timekeeping_repositories_protocols "pontos_funcionario/src/repositories/protocols/timekeeping"
 )
 
 type ClockOutEmployee struct {
 	validations             controller_helpers.ValidationComposite
-	clockOutRepository      pg_timekeeping_repositories.ClockOut
-	closedClockInRepository pg_timekeeping_repositories.ClosedClockIn
+	clockOutRepository      timekeeping_repositories_protocols.ClockOut
+	closedClockInRepository timekeeping_repositories_protocols.GetClosedClockIn
 	controller_protocols.Controller
 }
 
 func MakeClockOutEmployee(
 	validations controller_helpers.ValidationComposite,
-	clockOutRepository pg_timekeeping_repositories.ClockOut,
-	closedClockInRepository pg_timekeeping_repositories.ClosedClockIn,
+	clockOutRepository timekeeping_repositories_protocols.ClockOut,
+	closedClockInRepository timekeeping_repositories_protocols.GetClosedClockIn,
 ) controller_protocols.Controller {
 	return &ClockOutEmployee{
 		validations:             validations,
