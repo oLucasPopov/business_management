@@ -21,7 +21,12 @@ func MakeListEmployees(listEmployeesRepository pg_employee_repositories.ListEmpl
 }
 
 func (c *ListEmployees) Handle(request *controller_protocols.ControllerRequest) controller_protocols.ControllerResponse {
-	page, err := strconv.ParseInt(request.Query.Get("page"), 10, 32)
+	pageStr := request.Query.Get("page")
+	if pageStr == "" {
+		pageStr = "1"
+	}
+
+	page, err := strconv.ParseInt(pageStr, 10, 32)
 	if err != nil {
 		return *controller_helpers.ErrorFieldResponse(http.StatusBadRequest, errors.New(`the query "page" must be an integer`), "id")
 	}
