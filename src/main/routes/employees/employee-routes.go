@@ -21,7 +21,7 @@ func MakeEmployeeRoutes() []*main_protocols.Route {
 		&main_protocols.Route{
 			Url:    "/employee/{id}",
 			Method: http.MethodDelete,
-			Func:   DeleteEmployeeAdapter,
+			Func:   muxRoute.Adapt(*employee_factory.MakeDeleteEmployee()),
 		},
 		&main_protocols.Route{
 			Url:    employeesUrl,
