@@ -8,16 +8,16 @@ import (
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
 	"pontos_funcionario/src/models"
-	pg_employee_repositories "pontos_funcionario/src/repositories/pg/employee"
+	employee_repositories_protocols "pontos_funcionario/src/repositories/protocols/employees"
 )
 
 type AddEmployee struct {
-	employeeRepository pg_employee_repositories.AddEmployee
+	employeeRepository employee_repositories_protocols.AddEmployee
 	validations        controller_helpers.ValidationComposite
 	controller_protocols.Controller
 }
 
-func MakeAddEmployee(employeeRepository pg_employee_repositories.AddEmployee,
+func MakeAddEmployee(employeeRepository employee_repositories_protocols.AddEmployee,
 	validations controller_helpers.ValidationComposite) controller_protocols.Controller {
 	return &AddEmployee{
 		employeeRepository: employeeRepository,

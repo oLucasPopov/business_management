@@ -6,16 +6,16 @@ import (
 	"net/http"
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
-	pg_employee_repositories "pontos_funcionario/src/repositories/pg/employee"
+	employee_repositories_protocols "pontos_funcionario/src/repositories/protocols/employees"
 	"strconv"
 )
 
 type DeleteEmployee struct {
-	deleteEmployeeRepository pg_employee_repositories.DeleteEmployee
+	deleteEmployeeRepository employee_repositories_protocols.DeleteEmployee
 	controller_protocols.Controller
 }
 
-func MakeDeleteEmployee(deleteEmployeeRepository pg_employee_repositories.DeleteEmployee) controller_protocols.Controller {
+func MakeDeleteEmployee(deleteEmployeeRepository employee_repositories_protocols.DeleteEmployee) controller_protocols.Controller {
 	return &DeleteEmployee{
 		deleteEmployeeRepository: deleteEmployeeRepository,
 	}

@@ -7,15 +7,15 @@ import (
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
 	"pontos_funcionario/src/models"
-	pg_employee_repositories "pontos_funcionario/src/repositories/pg/employee"
+	employee_repositories_protocols "pontos_funcionario/src/repositories/protocols/employees"
 )
 
 type UpdateEmployee struct {
-	updateEmployeeRepository pg_employee_repositories.UpdateEmployee
+	updateEmployeeRepository employee_repositories_protocols.UpdateEmployee
 	validations              controller_helpers.ValidationComposite
 }
 
-func MakeUpdateEmployee(updateEmployeeRepository pg_employee_repositories.UpdateEmployee,
+func MakeUpdateEmployee(updateEmployeeRepository employee_repositories_protocols.UpdateEmployee,
 	validations controller_helpers.ValidationComposite) controller_protocols.Controller {
 	return &UpdateEmployee{
 		updateEmployeeRepository: updateEmployeeRepository,

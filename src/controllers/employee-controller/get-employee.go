@@ -6,15 +6,15 @@ import (
 	"net/http"
 	controller_helpers "pontos_funcionario/src/controllers/helpers"
 	controller_protocols "pontos_funcionario/src/controllers/protocols"
-	pg_employee_repositories "pontos_funcionario/src/repositories/pg/employee"
+	employee_repositories_protocols "pontos_funcionario/src/repositories/protocols/employees"
 	"strconv"
 )
 
 type GetEmployee struct {
-	getEmployeeRepository pg_employee_repositories.GetEmployee
+	getEmployeeRepository employee_repositories_protocols.GetEmployee
 }
 
-func MakeGetEmployee(getEmployeeRepository pg_employee_repositories.GetEmployee) controller_protocols.Controller {
+func MakeGetEmployee(getEmployeeRepository employee_repositories_protocols.GetEmployee) controller_protocols.Controller {
 	return &GetEmployee{
 		getEmployeeRepository: getEmployeeRepository,
 	}

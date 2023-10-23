@@ -22,7 +22,7 @@ func MakeAddEmployee() *controller_protocols.Controller {
 
 	validationsComposite := controller_helpers.NewValidationComposite(validationCollection)
 	addEmployeeRepository := pg_employee_repositories.AddEmployee{}
-	addEmployee := employee_controller.MakeAddEmployee(addEmployeeRepository, *validationsComposite)
+	addEmployee := employee_controller.MakeAddEmployee(&addEmployeeRepository, *validationsComposite)
 	return &addEmployee
 }
 func MakeUpdateEmployee() *controller_protocols.Controller {
@@ -40,24 +40,24 @@ func MakeUpdateEmployee() *controller_protocols.Controller {
 	validationsComposite := controller_helpers.NewValidationComposite(validationCollection)
 
 	updateEmployeeRepository := pg_employee_repositories.UpdateEmployee{}
-	updateEmployee := employee_controller.MakeUpdateEmployee(updateEmployeeRepository, *validationsComposite)
+	updateEmployee := employee_controller.MakeUpdateEmployee(&updateEmployeeRepository, *validationsComposite)
 	return &updateEmployee
 }
 
 func MakeGetEmployee() *controller_protocols.Controller {
 	getEmployeeRepository := pg_employee_repositories.GetEmployee{}
-	getEmployee := employee_controller.MakeGetEmployee(getEmployeeRepository)
+	getEmployee := employee_controller.MakeGetEmployee(&getEmployeeRepository)
 	return &getEmployee
 }
 
 func MakeListEmployees() *controller_protocols.Controller {
 	listEmployeesRepository := pg_employee_repositories.ListEmployees{}
-	listEmployees := employee_controller.MakeListEmployees(listEmployeesRepository)
+	listEmployees := employee_controller.MakeListEmployees(&listEmployeesRepository)
 	return &listEmployees
 }
 
 func MakeDeleteEmployee() *controller_protocols.Controller {
 	deleteEmployeeRepository := pg_employee_repositories.DeleteEmployee{}
-	deleteEmployee := employee_controller.MakeDeleteEmployee(deleteEmployeeRepository)
+	deleteEmployee := employee_controller.MakeDeleteEmployee(&deleteEmployeeRepository)
 	return &deleteEmployee
 }
