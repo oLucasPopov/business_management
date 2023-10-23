@@ -50,10 +50,10 @@ func MakeGetEmployee() *controller_protocols.Controller {
 	return &getEmployee
 }
 
-func MakeListEmployees() employee_controller.ListEmployees {
-	return employee_controller.ListEmployees{
-		ListEmployeesRepository: pg_employee_repositories.ListEmployees{},
-	}
+func MakeListEmployees() *controller_protocols.Controller {
+	listEmployeesRepository := pg_employee_repositories.ListEmployees{}
+	listEmployees := employee_controller.MakeListEmployees(listEmployeesRepository)
+	return &listEmployees
 }
 
 func MakeDeleteEmployee() *controller_protocols.Controller {
