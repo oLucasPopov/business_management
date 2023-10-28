@@ -3,16 +3,24 @@ package pg_helpers
 import (
 	"database/sql"
 	"fmt"
+	"pontos_funcionario/src/config"
 
 	_ "github.com/lib/pq"
 )
 
 func PostgresConnect() (*sql.DB, error) {
+
+	pgConnection, err := config.GetPGConfig()
+
+	if err != nil {
+		return nil, err
+	}
+
 	db, err := sql.Open("postgres", fmt.Sprintf(
-		"user=%s password=%s dbname=%s sslmode=disable",
-		"postgres",
-		"123456789",
-		"29-09-2023",
+		"user=%v password=%v dbname=%v sslmode=disable",
+		pgConnection.User,
+		pgConnection.Password,
+		pgConnection.Database,
 	))
 
 	if err != nil {
