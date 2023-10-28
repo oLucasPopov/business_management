@@ -18,7 +18,9 @@ func MakeAddEmployee() *controller_protocols.Controller {
 
 	validationCollection = append(validationCollection,
 		validations.NewRequiredValuesValidation("salary_type", []interface{}{"H", "M"}),
-		validations.NewHigherThanZeroValidation("salary"))
+		validations.NewHigherThanZeroValidation("salary"),
+		validations.NewEmptyFieldValidation("name"),
+	)
 
 	validationsComposite := controller_helpers.NewValidationComposite(validationCollection)
 	addEmployeeRepository := pg_employee_repositories.AddEmployee{}
@@ -35,7 +37,9 @@ func MakeUpdateEmployee() *controller_protocols.Controller {
 
 	validationCollection = append(validationCollection,
 		validations.NewRequiredValuesValidation("salary_type", []interface{}{"H", "M"}),
-		validations.NewHigherThanZeroValidation("salary"))
+		validations.NewHigherThanZeroValidation("salary"),
+		validations.NewEmptyFieldValidation("name"),
+	)
 
 	validationsComposite := controller_helpers.NewValidationComposite(validationCollection)
 
