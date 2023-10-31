@@ -17,10 +17,12 @@ func PostgresConnect() (*sql.DB, error) {
 	}
 
 	db, err := sql.Open("postgres", fmt.Sprintf(
-		"user=%v password=%v dbname=%v sslmode=disable",
+		"user=%v password=%v dbname=%v host=%v port=%v sslmode=disable",
 		pgConnection.User,
 		pgConnection.Password,
 		pgConnection.Database,
+		pgConnection.Host,
+		pgConnection.Port,
 	))
 
 	if err != nil {

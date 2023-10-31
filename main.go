@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"pontos_funcionario/src/config"
 	app_routes "pontos_funcionario/src/main/routes"
 
 	"github.com/joho/godotenv"
@@ -14,9 +15,16 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	} else {
-		fmt.Print(".env loaded")
+		fmt.Print("database configs loaded")
+	}
+
+	hostConfig, err := config.GetHostConfig()
+	if err != nil {
+		log.Panic(err)
+	} else {
+		fmt.Print("server configs loaded")
 	}
 
 	r := app_routes.MakeRoutes()
-	http.ListenAndServe("localhost:8080", r)
+	http.ListenAndServe(fmt.Sprintf("%s:%d", hostConfig.Host, hostConfig.Port), r)
 }
