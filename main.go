@@ -15,14 +15,14 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	} else {
-		fmt.Print("database configs loaded")
+		fmt.Println("database configs loaded")
 	}
 
 	hostConfig, err := config.GetHostConfig()
 	if err != nil {
 		log.Panic(err)
 	} else {
-		fmt.Print("server configs loaded")
+		fmt.Println("server configs loaded")
 	}
 
 	r := app_routes.MakeRoutes()
